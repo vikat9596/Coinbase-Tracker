@@ -41,14 +41,15 @@ This project is a cryptocurrency tracker built using **ReactJS** and **Node.js**
     ```bash
     npm install
     ```
+3. Rename .env.sample to .env    
 
-3. Start the development server:
+4. Start the development server:
 
     ```bash
     npm start
     ```
 
-4. The app will be accessible at `http://localhost:3000`.
+5. The app will be accessible at `http://localhost:3000`.
 
 ### Backend WebSocket Server
 
