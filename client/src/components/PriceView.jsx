@@ -17,25 +17,43 @@ function PriceView({ products, subscriptions, priceData }) {
           subscriptions[product] && (
             <div key={product}>
               <h3>{product}</h3>
-              <div>
+              <div className="orders-table">
                 <h4>Bids</h4>
-                <ul>
-                  {getBestOrders(priceData[product]?.bids || {}, 'buy').map(([side, price, size]) => (
-                    <li key={price}>
-                      {price}: {size}
-                    </li>
-                  ))}
-                </ul>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Price</th>
+                      <th>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getBestOrders(priceData[product]?.bids || {}, 'buy').map(([side, price, size]) => (
+                      <tr key={price}>
+                        <td>{price}</td>
+                        <td>{size}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              <div>
+              <div className="orders-table">
                 <h4>Asks</h4>
-                <ul>
-                  {getBestOrders(priceData[product]?.asks || {}, 'sell').map(([side, price, size]) => (
-                    <li key={price}>
-                      {price}: {size}
-                    </li>
-                  ))}
-                </ul>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Price</th>
+                      <th>Size</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getBestOrders(priceData[product]?.asks || {}, 'sell').map(([side, price, size]) => (
+                      <tr key={price}>
+                        <td>{price}</td>
+                        <td>{size}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )

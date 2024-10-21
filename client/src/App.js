@@ -15,11 +15,24 @@ function App() {
   const [priceData, setPriceData] = useState({});
   const [matches, setMatches] = useState([]);
   const [systemStatus, setSystemStatus] = useState([]);
+  const [isConnected, setIsConnected] = useState(false); // New state for connection status
+  const [clientId, setClientId] = useState(""); // New state for client ID
 
   useEffect(() => {
+    // When the WebSocket connects, update the state
+    socket.on("connect", () => {
+      setIsConnected(true);
+      setClientId(socket.id); // Set client ID from socket
+    });
+
+    // When the WebSocket disconnects, update the state
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+      setClientId(""); // Clear client ID when disconnected
+    });
+
     socket.on("level2Update", (data) => {
       setPriceData(data);
-      // console.log(data);
     });
 
     socket.on("match", (data) => {
@@ -30,15 +43,9 @@ function App() {
       setSystemStatus(data);
     });
 
-    // socket.on("systemStatus", (data) => {
-    //   // Filter system status to only include subscribed products
-    //   const filteredStatus = data.filter((channel) =>
-    //     channel.product_ids.some((productId) => subscriptions[productId])
-    //   );
-    //   setSystemStatus(filteredStatus);
-    // });
-
     return () => {
+      socket.off("connect");
+      socket.off("disconnect");
       socket.off("level2Update");
       socket.off("match");
       socket.off("systemStatus");
@@ -53,25 +60,38 @@ function App() {
   const handleUnsubscribe = (product) => {
     socket.emit("unsubscribe", { product });
     setSubscriptions((prev) => ({ ...prev, [product]: false }));
+    setClientId(""); // Clear client ID when disconnected
   };
 
   return (
     <div className="App">
-    <h1>Coinbase Feed</h1>
-    <SubscribeUnsubscribe
-      products={products}
-      subscriptions={subscriptions}
-      onSubscribe={handleSubscribe}
-      onUnsubscribe={handleUnsubscribe}
-    />
-    <PriceView
-      products={products}
-      subscriptions={subscriptions}
-      priceData={priceData}
-    />
-    <MatchView matches={matches} subscriptions={subscriptions} /> {/* Pass subscriptions here */}
-    <SystemStatus status={systemStatus} subscriptions={subscriptions} /> {/* Pass subscriptions here */}
-  </div>
+      <h1>Coinbase Feed</h1>
+
+      {/* Display WebSocket connection status and client ID */}
+      <div className="connection-status">
+        {isConnected ? (
+          <p>
+            WebSocket is connected. Client ID: <strong>{clientId}</strong>
+          </p>
+        ) : (
+          <p>WebSocket is disconnected.</p>
+        )}
+      </div>
+
+      <SubscribeUnsubscribe
+        products={products}
+        subscriptions={subscriptions}
+        onSubscribe={handleSubscribe}
+        onUnsubscribe={handleUnsubscribe}
+      />
+      <PriceView
+        products={products}
+        subscriptions={subscriptions}
+        priceData={priceData}
+      />
+      <MatchView matches={matches} subscriptions={subscriptions} />
+      <SystemStatus status={systemStatus} subscriptions={subscriptions} /> 
+    </div>
   );
 }
 
