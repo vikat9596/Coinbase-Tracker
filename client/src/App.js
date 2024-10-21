@@ -60,7 +60,6 @@ function App() {
   const handleUnsubscribe = (product) => {
     socket.emit("unsubscribe", { product });
     setSubscriptions((prev) => ({ ...prev, [product]: false }));
-    setClientId(""); // Clear client ID when disconnected
   };
 
   return (

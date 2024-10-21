@@ -153,6 +153,7 @@ tr:hover {
 
 .price-view {
   margin: 20px;
+  
 }
 
 .price-view h3 {
@@ -176,7 +177,7 @@ tr:hover {
 }
 
 .orders-table th {
-  background-color: #f4f4f4;
+  background-color: #3d83ec;
   font-weight: bold;
 }
 
