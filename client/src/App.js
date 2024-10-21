@@ -6,6 +6,7 @@ import MatchView from "./components/MatchView";
 import SystemStatus from "./components/SystemStatus";
 import "./App.css";
 
+// WebSocket connection
 const socket = io("http://localhost:4000");
 
 const products = ["BTC-USD", "ETH-USD", "XRP-USD", "LTC-USD"];
@@ -15,22 +16,26 @@ function App() {
   const [priceData, setPriceData] = useState({});
   const [matches, setMatches] = useState([]);
   const [systemStatus, setSystemStatus] = useState([]);
-  const [isConnected, setIsConnected] = useState(false); // New state for connection status
-  const [clientId, setClientId] = useState(""); // New state for client ID
+  const [isConnected, setIsConnected] = useState(false);
+  const [clientId, setClientId] = useState("");
+  const [showErrorPopup, setShowErrorPopup] = useState(false); // State for error popup
 
   useEffect(() => {
-    // When the WebSocket connects, update the state
+    // When the WebSocket connects
     socket.on("connect", () => {
       setIsConnected(true);
-      setClientId(socket.id); // Set client ID from socket
+      setClientId(socket.id);
+      setShowErrorPopup(false); // Hide popup when connected
     });
 
-    // When the WebSocket disconnects, update the state
+    // When the WebSocket disconnects
     socket.on("disconnect", () => {
       setIsConnected(false);
-      setClientId(""); // Clear client ID when disconnected
+      setClientId("");
+      setShowErrorPopup(true); // Show error popup when disconnected
     });
 
+    // Other event listeners
     socket.on("level2Update", (data) => {
       setPriceData(data);
     });
@@ -43,8 +48,6 @@ function App() {
       setSystemStatus(data);
     });
 
-    
-
     return () => {
       socket.off("connect");
       socket.off("disconnect");
@@ -54,17 +57,22 @@ function App() {
     };
   }, []);
 
+  // Handle subscription
   const handleSubscribe = (product) => {
     socket.emit("subscribe", { product });
     setSubscriptions((prev) => ({ ...prev, [product]: true }));
   };
 
+  // Handle unsubscription
   const handleUnsubscribe = (product) => {
     socket.emit("unsubscribe", { product });
     setSubscriptions((prev) => ({ ...prev, [product]: false }));
   };
 
-  
+  // Reconnect function
+  const handleReconnect = () => {
+    socket.connect(); // Attempt to reconnect
+  };
 
   return (
     <div className="App">
@@ -93,9 +101,15 @@ function App() {
         priceData={priceData}
       />
       <MatchView matches={matches} subscriptions={subscriptions} />
-      <SystemStatus status={systemStatus} subscriptions={subscriptions} /> 
+      <SystemStatus status={systemStatus} subscriptions={subscriptions} />
 
-      
+      {/* Popup Notification for Server Disconnection */}
+      {showErrorPopup && (
+        <div className="error-popup">
+          <p>Connection to the server has been lost. Please try again.</p>
+          <button onClick={handleReconnect}>Retry</button>
+        </div>
+      )}
     </div>
   );
 }
