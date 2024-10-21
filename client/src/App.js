@@ -30,6 +30,14 @@ function App() {
       setSystemStatus(data);
     });
 
+    // socket.on("systemStatus", (data) => {
+    //   // Filter system status to only include subscribed products
+    //   const filteredStatus = data.filter((channel) =>
+    //     channel.product_ids.some((productId) => subscriptions[productId])
+    //   );
+    //   setSystemStatus(filteredStatus);
+    // });
+
     return () => {
       socket.off("level2Update");
       socket.off("match");
@@ -49,21 +57,21 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Coinbase Feed</h1>
-      <SubscribeUnsubscribe
-        products={products}
-        subscriptions={subscriptions}
-        onSubscribe={handleSubscribe}
-        onUnsubscribe={handleUnsubscribe}
-      />
-      <PriceView
-        products={products}
-        subscriptions={subscriptions}
-        priceData={priceData}
-      />
-      <MatchView matches={matches} />
-      <SystemStatus status={systemStatus} />
-    </div>
+    <h1>Coinbase Feed</h1>
+    <SubscribeUnsubscribe
+      products={products}
+      subscriptions={subscriptions}
+      onSubscribe={handleSubscribe}
+      onUnsubscribe={handleUnsubscribe}
+    />
+    <PriceView
+      products={products}
+      subscriptions={subscriptions}
+      priceData={priceData}
+    />
+    <MatchView matches={matches} subscriptions={subscriptions} /> {/* Pass subscriptions here */}
+    <SystemStatus status={systemStatus} subscriptions={subscriptions} /> {/* Pass subscriptions here */}
+  </div>
   );
 }
 

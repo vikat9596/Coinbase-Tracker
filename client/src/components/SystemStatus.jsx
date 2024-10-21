@@ -1,11 +1,13 @@
-import React from "react";
+function SystemStatus({ status, subscriptions }) {
+  const filteredStatus = status.filter(channel =>
+    channel.product_ids.some(productId => subscriptions[productId])
+  );
 
-function SystemStatus({ status }) {
   return (
     <div className="system-status">
       <h2>System Status</h2>
       <ul>
-        {status.map((channel, index) => (
+        {filteredStatus.map((channel, index) => (
           <li key={index}>
             {channel.name}: {channel.product_ids.join(", ")}
           </li>

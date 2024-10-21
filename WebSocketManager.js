@@ -12,7 +12,7 @@ class WebSocketManager extends EventEmitter {
     this.ws = null;
     this.apiKey = "organizations/91568a56-b074-4b35-8592-ac204af0b312/apiKeys/69443617-ece1-4e80-99e3-ba5ce03495da"; // Ensure this is loaded
     this.secretKey = "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIG7wq2NilVxIx2+hKPMZUmAs5NcKyeiHgIhwYp0F4acdoAoGCCqGSM49\nAwEHoUQDQgAE7w4sPL4H0FLsfzIBYIBr7ZkgquXk5BAKYOHdbOWBsV5nzFf3uDl6\nO/QMFdgSG0PQkd9A5GTsJRlhTXTzxomFoA==\n-----END EC PRIVATE KEY-----\n"; // Ensure this is loaded
-    this.passphrase = ""; // Ensure this is loaded
+    this.passphrase = ""; 
     this.connect();
   }
 
