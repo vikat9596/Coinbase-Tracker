@@ -43,6 +43,8 @@ function App() {
       setSystemStatus(data);
     });
 
+    
+
     return () => {
       socket.off("connect");
       socket.off("disconnect");
@@ -61,6 +63,8 @@ function App() {
     socket.emit("unsubscribe", { product });
     setSubscriptions((prev) => ({ ...prev, [product]: false }));
   };
+
+  
 
   return (
     <div className="App">
@@ -90,6 +94,8 @@ function App() {
       />
       <MatchView matches={matches} subscriptions={subscriptions} />
       <SystemStatus status={systemStatus} subscriptions={subscriptions} /> 
+
+      
     </div>
   );
 }

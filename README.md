@@ -1,6 +1,16 @@
 # Coinbase Feed WebSocket Application
 
-This project is a cryptocurrency tracker built using **ReactJS** that interacts with the **Coinbase Pro WebSocket API**. It allows users to subscribe and unsubscribe from real-time price updates for four major cryptocurrency pairs (BTC-USD, ETH-USD, XRP-USD, and LTC-USD). Users can view price updates, match events, and system status filtered by their active subscriptions.
+
+This project is a cryptocurrency tracker built using **ReactJS** and **Node.js** that interacts with the **Coinbase WebSocket API**. It allows users to subscribe and unsubscribe from real-time price updates for four major cryptocurrency pairs (BTC-USD, ETH-USD, XRP-USD, and LTC-USD). Users can view price updates, match events, and system status filtered by their active subscriptions.
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Components Overview](#components-overview)
+- [WebSocket API](#websocket-api)
+- [Contributing](#contributing)
 
 ## Features
 
@@ -8,15 +18,6 @@ This project is a cryptocurrency tracker built using **ReactJS** that interacts 
 - **Match View**: Shows trade matches (buy/sell orders) for subscribed products.
 - **System Status**: Displays system status updates for subscribed channels.
 - **Subscribe/Unsubscribe**: Allows users to subscribe and unsubscribe to price feeds.
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Components Overview](#components-overview)
-- [WebSocket API](#websocket-api)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -31,8 +32,8 @@ This project is a cryptocurrency tracker built using **ReactJS** that interacts 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/Coinbase-Feed.git
-    cd Coinbase-Feed
+    git clone https://github.com/vikat9596/coinbase-tracker.git
+    cd coinbase-tracker
     ```
 
 2. Install dependencies:
@@ -53,7 +54,7 @@ This project is a cryptocurrency tracker built using **ReactJS** that interacts 
 
 This project requires a WebSocket server to be running. By default, it assumes the server is hosted at `http://localhost:4000`. If the server address differs, update the WebSocket URL in the code:
 
-```js
+```javascript
 const socket = io("http://localhost:4000");
 ```
 
@@ -97,11 +98,11 @@ Once the app is running:
 
 The app communicates with a backend WebSocket server using the following events:
 
-- `subscribe`: Sends a subscription request to the server for a specific product.
-- `unsubscribe`: Sends an unsubscribe request to stop receiving data for the specified product.
-- `level2Update`: Receives real-time price updates (bids/asks) for subscribed products.
-- `match`: Receives trade match events for subscribed products.
-- `systemStatus`: Receives updates on the system status for subscribed products.
+- **subscribe**: Sends a subscription request to the server for a specific product.
+- **unsubscribe**: Sends an unsubscribe request to stop receiving data for the specified product.
+- **level2Update**: Receives real-time price updates (bids/asks) for subscribed products.
+- **match**: Receives trade match events for subscribed products.
+- **systemStatus**: Receives updates on the system status for subscribed products.
 
 ### Example WebSocket Data
 
@@ -159,4 +160,3 @@ Contributions are welcome! If you'd like to contribute, please follow these step
     ```
 
 5. Open a pull request.
-

@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+# Coinbase Tracker - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+This project is the frontend component of the **Coinbase Tracker**, a real-time cryptocurrency tracking application built with **React**. It connects to the **Coinbase Pro WebSocket API** to display live data for popular cryptocurrency pairs, allowing users to subscribe and unsubscribe to different feeds.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Components Overview](#components-overview)
+- [WebSocket Communication](#websocket-communication)
+- [Contributing](#contributing)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Real-Time Price Updates**: View live bids and asks for various cryptocurrencies.
+- **Trade Matches**: Monitor the latest trade matches in real-time.
+- **System Status**: Check the operational status of subscribed channels.
+- **Subscription Management**: Easily subscribe to or unsubscribe from different cryptocurrency pairs.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (v12.x or above)
+- npm (v6.x or above)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Steps
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Clone the repository:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```bash
+    git clone https://github.com/vikat9596/coinbase-tracker.git
+    cd coinbase-tracker
+    ```
 
-### `npm run eject`
+2. Install dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    ```bash
+    npm install
+    ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Start the development server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    ```bash
+    npm start
+    ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+4. The app will be accessible at `http://localhost:3000`.
 
-## Learn More
+### Backend WebSocket Server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This frontend application requires a WebSocket server to connect to. By default, it assumes the server is hosted at `http://localhost:4000`. Ensure the backend server is running before starting the frontend.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Usage
 
-### Code Splitting
+Once the app is running, you can:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **Subscribe/Unsubscribe** to any of the available cryptocurrency pairs (BTC-USD, ETH-USD, XRP-USD, LTC-USD).
+2. View **real-time price updates** for subscribed pairs in the Price View section.
+3. Monitor **trade matches** in the Match View section.
+4. Check **system status** updates for subscribed products.
 
-### Analyzing the Bundle Size
+## Components Overview
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 1. `App.js`
 
-### Making a Progressive Web App
+- **Description**: The main entry point of the application that manages WebSocket connections and state.
+- **Key Functions**:
+  - Handles subscription logic.
+  - Connects to the WebSocket server.
+  - Displays connection status and client ID.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 2. `SubscribeUnsubscribe.js`
 
-### Advanced Configuration
+- **Description**: Component for subscribing and unsubscribing from cryptocurrency products.
+- **Key Functions**:
+  - Displays buttons for subscription management.
+  - Updates subscription status.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 3. `PriceView.js`
 
-### Deployment
+- **Description**: Displays the top bids and asks for each subscribed product.
+- **Key Functions**:
+  - Retrieves and renders bid and ask data.
+  - Excludes orders with a size of `0.00000000`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 4. `MatchView.js`
 
-### `npm run build` fails to minify
+- **Description**: Displays the latest trade matches for subscribed products.
+- **Key Functions**:
+  - Filters matches based on active subscriptions.
+  - Displays the most recent 20 matches.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 5. `SystemStatus.js`
+
+- **Description**: Displays the system status for subscribed channels.
+- **Key Functions**:
+  - Filters system status updates based on active subscriptions.
+
+## WebSocket Communication
+
+The app communicates with a backend WebSocket server using the following events:
+
+- **connect**: Triggered when the WebSocket connection is established.
+- **disconnect**: Triggered when the WebSocket connection is lost.
+- **level2Update**: Receives real-time price updates for subscribed products.
+- **match**: Receives trade match events for subscribed products.
+- **systemStatus**: Receives system status updates for subscribed products.
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute, please follow these steps:
+
+1. Fork the repository.
+2. Create a new feature branch:
+
+    ```bash
+    git checkout -b feature-name
+    ```
+
+3. Make your changes and commit them:
+
+    ```bash
+    git commit -m "Add some feature"
+    ```
+
+4. Push to the branch:
+
+    ```bash
+    git push origin feature-name
+    ```
+
+5. Open a pull request.
+
